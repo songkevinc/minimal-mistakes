@@ -9,10 +9,10 @@ minimal_mistakes_skin    : "default" # "air", "contrast", "dark", "dirt", "mint"
 
 # Site Settings
 locale                   : "en-US"
-title                    : #
+title                    : 
 title_separator          : "-"
 name                     : "Kevin Song"
-description              : #
+description              : "PhD Biophysics | Data Nerd"
 url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -81,9 +81,9 @@ analytics:
 author:
   name             : "Kevin Song"
   avatar           : "https://avatars.githubusercontent.com/songkevinc"
-  bio              : "PhD Candidate Biophysics"
+  bio              : "I like food"
   location         : "Chicago, IL"
-  email            : "kcsong@uchicago.edu"
+  email            :
   uri              :
   bitbucket        :
   codepen          :
@@ -97,7 +97,7 @@ author:
   keybase          :
   instagram        :
   lastfm           :
-  linkedin         : "https://"
+  linkedin         : # "john-doe-12345678" (the last part of your profile url, e.g. https://www.linkedin.com/in/john-doe-12345678)
   pinterest        :
   soundcloud       :
   stackoverflow    : # "123456/username" (the last part of your profile url, e.g. https://stackoverflow.com/users/123456/username)
