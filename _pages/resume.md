@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Resume
+title: "Resume"
 comments: false
 ---
 [Resume](/resume/KevinSongResume.pdf)
