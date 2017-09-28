@@ -6,7 +6,7 @@ main:
      url: /about/
    - title: "Resume"
      url: /resume/
-   - title: "Old Posts"
-     url: /old/
+  # - title: "Old Posts"
+  #   url: /old/
   # - title: "Sitemap"
   #   url: /sitemap/
