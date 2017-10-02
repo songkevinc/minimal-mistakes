@@ -54,7 +54,7 @@ This part is probably the trickiest and the slickest part of using selenium. Now
 <br>
 2. Currently, the season type is set to be preseason, but who cares about the preseason??? We want to change this to regular season stat sheet.
 
-    ![nba_stats_dropdown.png](https://songkevinc.github.io/images/nba_stats_dropdown.png)
+    ![nba_stats_dropdown.png](images/nba_stats_dropdown.png)
 
 3. After we change the season year and type, we need to change the formate of the table, so that all players are displayed. This option is at the bottom of the page, and we need to change the option to "all."
 
@@ -65,7 +65,7 @@ This part is probably the trickiest and the slickest part of using selenium. Now
 
 We're going to find these elements by using inspection and finding its xpath. In chrome, first right click on the dropdown menu and select Inspect. This will bring a new look to the chromedriver that looks like this following image:
 
-![inspect_dropdown.png](https://songkevinc.github.io/images/inspect_dropdown.png)
+![inspect_dropdown.png](images/inspect_dropdown.png)
 
 After you get to the inspection page, the dropdown menu that you selected to inspect should be highlighted on right side of the page. If you right click on the highlighted box on the right side, you have the option of copying its XPATH. 
 
@@ -1722,7 +1722,7 @@ plt.ylim([0,75])
 
 
 
-![png](https://songkevinc.github.io/images/output_14_1.png)
+![png](images/output_14_1.png)
 
 
 # Save to sql database
