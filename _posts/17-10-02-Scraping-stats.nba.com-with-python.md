@@ -1,11 +1,13 @@
 
 # Tutorial on how to scrape data from stats.nba.com
 
+This is my attempt at trying to scrape NBA player data from stats.nba.com. The main challenge with scraping from stats.nba.com is that their tables are dynamic, but conveniently, python package called **`selenium`** can be used to drive the web drive and interact with the dynamic table. After extracting stats from the website, I'm going to use pandas to create a dataframe, which can be stored as data frame pickle, json or sql database if you'd like. Here, I'll save the dataframe as pickle and sql database.
+
+
+## Load up all the packages
 
 ```python
 %matplotlib inline
-import requests
-from bs4 import BeautifulSoup
 from selenium import webdriver
 from pandas import *
 import pandas
@@ -15,32 +17,95 @@ from sqlalchemy import *
 ```
 
 
+## Loading up Chromedriver to make it look like a person is driving the website navigation
+
+<br>
+<br>
+
 ```python
-path_to_chromedriver = '/Users/kevinsong/miniconda/envs/conda_env/bin/chromedriver'
-browser = webdriver.Chrome(executable_path=path_to_chromedriver) # magically launches chrome driver
+path_to_chromedriver = '/path/to/chromedriver' # Path to access a chrome driver
+browser = webdriver.Chrome(executable_path=path_to_chromedriver)
 ```
 
+<br>
+<br>
+
+*Note: I use anaconda to manage my packages and control environments.*
+*If you're using Anaconda, you can download a chromedriver by using:* <br>
+**conda install -c clinicalgraphics chromedriver**
+
+
 
 ```python
+
 url = 'https://stats.nba.com/leaders'
 browser.get(url)
 ```
 
+Here, we're accessing the web through the chromedriver that we opened up. You can change url variable to whatever website you'd like, and you should be able to get the site opened up on chromedriver.
 
+# Getting the stats table we want
+
+This part is probably the trickiest and the slickest part of using selenium. Now that we've accessed `stats.nba.com/leaders` we want through chromedriver, we need to interact with the table and pull out the table that we want. In our case I want to change 3 things about this:
+
+*Note: the 3 areas need for change are annotated and numbered in the image*
+
+1. The default option for season is 2017-2018 season. However, I want to inspect last year's (2016-17) season stats. So, we need to change this parameter.
+<br>
+2. Currently, the season type is set to be preseason, but who cares about the preseason??? We want to change this to regular season stat sheet.
+
+    ![nba_stats_dropdown.png](images/nba_stats_dropdown.png)
+
+3. After we change the season year and type, we need to change the formate of the table, so that all players are displayed. This option is at the bottom of the page, and we need to change the option to "all."
+
+![all_dropdown.png](images/all_dropdown.png)
+
+
+# Now, here's the trick
+
+We're going to find these elements by using inspection and finding its xpath. In chrome, first right click on the dropdown menu and select Inspect. This will bring a new look to the chromedriver that looks like this following image:
+
+![inspect_dropdown.png](images/inspect_dropdown.png)
+
+After you get to the inspection page, the dropdown menu that you selected to inspect should be highlighted on right side of the page. If you right click on the highlighted box on the right side, you have the option of copying its XPATH. 
+
+For example, let's find the xpath for the season year:
+<br>
+`/html/body/main/div[2]/div/div[2]/div/div/div[1]/div[1]/div/div/label/select`
+<br>
+
+Okay, now we can use this xpath and options to get to the right season. To do this, we'll just add `/option[2]` at the end of the above xpath to get the 2016-17 season. So, the final product looks like ths following:
+<br>
+`/html/body/main/div[2]/div/div[2]/div/div/div[1]/div[1]/div/div/label/select/option[2]`
+<br>
+
+Now, we can use this xpath to get to the right table:
+ 
 ```python
 browser.find_element_by_xpath('/html/body/main/div[2]/div/div[2]/div/div/div[1]/div[1]/div/div/label/select/option[2]').click()
+```
+
+After running the above command, your chromedriver shuold display the 2016-17 preseason stat table. Now let's use the same trick to get to the 2016-17 regular season stat table and show all players' stats.
+
+
+```python
 browser.find_element_by_xpath('/html/body/main/div[2]/div/div[2]/div/div/div[1]/div[2]/div/div/label/select/option[2]').click()
+
 browser.find_element_by_xpath('/html/body/main/div[2]/div/div[2]/div/div/nba-stat-table/div[3]/div/div/select/option[1]').click()
 ```
 
+# Finding the stat table
 
-```python
+Now that we've successfully navigated to the right season + season type, we need to find the table in `html` to scrape. This part is quite easy. This is not the most elegant way of scraping the table, but it works. First, we go back to the inspect page, and you'll notice that the table is called `nba-stat-table__overflow`. So, we'll find this table by running the following line:
+``` python
 table = browser.find_element_by_class_name('nba-stat-table__overflow')
 ```
 
+If you run print table.text(), you'll see that the first line of text is the column names, and then the following lines go in the order of player's ID, name and stats, and repeat.
+
+So I wrote a somewhat stupid code for parsing this:
 
 ```python
-import re
 player_ids = []
 player_names = []
 player_stats = []
@@ -55,35 +120,20 @@ for line_id, lines in enumerate(table.text.split('\n')):
             player_names.append(lines)
         if line_id % 3 == 0:
             player_stats.append( [float(i) for i in lines.split(' ')] )
-
 ```
 
+# Creating a pandas dataframe
 
-```python
-print player_ids[0], player_names[0], player_stats[0]
+I like working with pandas because it's compatible with many different forms of databases, and it also provides nice tables in jupyter notebook. Here's how we're going to create our database:
 
-```
-
-    1 Russell Westbrook [81.0, 34.6, 31.6, 10.2, 24.0, 42.5, 2.5, 7.2, 34.3, 8.8, 10.4, 84.5, 1.7, 9.0, 10.7, 10.4, 1.6, 0.4, 5.4, 33.8]
-
-
-
-```python
-print column_names
-```
-
-    [u'PLAYER', u'GP', u'MIN', u'PTS', u'FGM', u'FGA', u'FG%', u'3PM', u'3PA', u'3P%', u'FTM', u'FTA', u'FT%', u'OREB', u'DREB', u'REB', u'AST', u'STL', u'BLK', u'TOV', u'EFF']
-
-
-
-```python
+``` python
 db = pandas.DataFrame({'player': player_names,
                        'gp': [i[0] for i in player_stats],
                        'min': [i[1] for i in player_stats],
                        'pts': [i[2] for i in player_stats],
                        'fgm': [i[3] for i in player_stats], 
                        'fga': [i[4] for i in player_stats],
-                       'fgp': [i[5] for i in player_stats],
+                       'fg%': [i[5] for i in player_stats],
                        '3pm': [i[6] for i in player_stats],
                        '3pa': [i[7] for i in player_stats],
                        '3p%': [i[8] for i in player_stats],
@@ -100,9 +150,9 @@ db = pandas.DataFrame({'player': player_names,
                        'eff': [i[19] for i in player_stats]
                        }
                      )
-```
+                     ```
 
-
+One annoying thing is that all the column names are getting re-ordered in alphabetical order. So we're going to reorder this by the following line:
 ```python
 db = db[['player', 
          'gp', 
@@ -110,7 +160,7 @@ db = db[['player',
          'pts', 
          'fgm', 
          'fga', 
-         'fgp', 
+         'fg%', 
          '3pm', 
          '3pa', 
          '3p%', 
@@ -1649,6 +1699,10 @@ db
 
 
 
+# Yay! we have a pandas dataframe
+
+Now you we can play with all the data! Let's plot something simple like field goals attempted vs. field goal %.
+
 
 ```python
 plt.scatter(db['fga'], db['fgp'])
@@ -1668,22 +1722,18 @@ plt.ylim([0,75])
 
 
 
-![png](output_12_1.png)
+![png](images/output_14_1.png)
 
 
-
-```python
 # Save to sql database
-
+```python
 sql_db = create_engine('sqlite:///16-17-nba_player_stats.db')
 sql_db.echo = False
 
 db.to_sql('16-17-nba_player_stats.db', sql_db)
 ```
-
-
-```python
 # pickle it!
+```python
 db.to_pickle('16-17-nba_player_stats.pkl')
 ```
 
