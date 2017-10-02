@@ -1,6 +1,3 @@
-
-# Tutorial on how to scrape data from stats.nba.com
-
 This is my attempt at trying to scrape NBA player data from stats.nba.com. The main challenge with scraping from stats.nba.com is that their tables are dynamic, but conveniently, python package called **`selenium`** can be used to drive the web drive and interact with the dynamic table. After extracting stats from the website, I'm going to use pandas to create a dataframe, which can be stored as data frame pickle, json or sql database if you'd like. Here, I'll save the dataframe as pickle and sql database.
 
 
