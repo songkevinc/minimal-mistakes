@@ -2,4 +2,4 @@
 
 1. [Statistical thinking for data science](https://www.youtube.com/watch?v=TGGGDpb04Yc)
 
-Summary: 
+2. [scikit-learn data science map](http://scikit-learn.org/stable/tutorial/machine_learning_map/)
