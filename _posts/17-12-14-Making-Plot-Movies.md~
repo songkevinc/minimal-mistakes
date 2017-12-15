@@ -1,8 +1,13 @@
 # Using ffmpeg to make plot movies
+ffmpeg \
+    -framerate 12 -i frames/final.protein.%05d.tga \
+    -c:v libx264 \
+    -preset slow \
+    -crf 18 \
+    -r 24 \
+    movie.mp4
 
-ffmpeg -framerate 24 -i tic1_%03d.png -framerate 24 -i final.tic1.%05d.tga -c:v libx264 -vcodec libx264 -pix_fmt yuv420p -preset slow -crf 18 -filter_complex "[0:v]scale=768:512 [left] ;[1:v]scale=512:512 [right]; [left][right] hstack" movie1.mp4
-
-LOTS OF THINGS TO DISCUSS HERE!!!!
+This will make a movie from VMD frames. You can change the filename format string (%05d means zero-padded integers to width 5 (default from VMD)). The file indices have to be contiguous.
 
 -framerate 24
 You can change this to speed up or slow down your movie. The output framerate is given by the -r option.
