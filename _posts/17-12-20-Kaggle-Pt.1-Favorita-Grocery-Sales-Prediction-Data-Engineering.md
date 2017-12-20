@@ -60,7 +60,7 @@ for col in test_db.columns:
 
 ```
 
-     Training Data
+    Training Data
     id False
     date False
     store_nbr False
@@ -649,20 +649,8 @@ test.head()
 
 
 ```python
-del ma_dw, ma_wk, holiday_db, oilprice_db, stores_db, sup, supData, test_db, items_db
+del ma_dw, ma_wk, holiday_db, oilprice_db, stores_db, test_db, items_db
 ```
-
-
-    
-
-    NameErrorTraceback (most recent call last)
-
-    <ipython-input-55-b9a80cdd9471> in <module>()
-    ----> 1 del ma_dw, ma_wk, holiday_db, oilprice_db, stores_db, sup, supData, test_db, items_db
-    
-
-    NameError: name 'sup' is not defined
-
 
 ## I'm going to divide up date into day, month and year and add them as features
 
