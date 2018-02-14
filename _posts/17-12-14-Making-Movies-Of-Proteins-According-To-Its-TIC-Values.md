@@ -1,14 +1,6 @@
 
 # Using ffmpeg to make plot movies
 
-
-```python
-%%HTML
-<iframe width="560" height="224" src="https://songkevinc.github.io/images/tic1_movie.mp4" frameborder="0" allowfullscreen></iframe>
-
-```
-
-
 <iframe width="560" height="224" src="https://songkevinc.github.io/images/tic1_movie.mp4" frameborder="0" allowfullscreen></iframe>
 
 
