@@ -21,11 +21,12 @@ In the video above, I'm showing the structure of a protein at the corresponding 
 
 ## After you finish steps 1 and 2, we can use the final magic command:
 
-`ffmpeg -framerate 24 -i img1_name_%03d.png\
-       -framerate 24 -i img2_name.%05d.tga\
-       -c:v libx264 -vcodec libx264 -pix_fmt yuv420p\
-       -preset slow -crf 18\
-       -filter_complex "[0:v]scale=768:512 [left] ;[1:v]scale=512:512 [right]; [left][right]           hstack" final_image_name.mp4`
+ffmpeg -framerate 24 -i img1_name_%03d.png\ <br \>
+       -framerate 24 -i img2_name.%05d.tga\ <br \>
+       -c:v libx264 -vcodec libx264 -pix_fmt yuv420p\ <br \>
+       -preset slow -crf 18\ <br \>
+       -filter_complex "[0:v]scale=768:512 [left] ;[1:v]scale=512:512 [right]; [left][right]
+       hstack" final_image_name.mp4 <br \>
 
 # There's a lot to consume in the above magic command. Here's what they actually mean:
 
