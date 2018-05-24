@@ -55,7 +55,7 @@ This part is probably the trickiest and the slickest part of using selenium. Now
 
 3. After we change the season year and type, we need to change the formate of the table, so that all players are displayed. This option is at the bottom of the page, and we need to change the option to "all."
 
-![all_dropdown.png](images/all_dropdown.png)
+![all_dropdown.png](https://songkevinc.github.io/images/all_dropdown.png)
 
 
 # Now, here's the trick
